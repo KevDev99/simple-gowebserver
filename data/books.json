@@ -1,0 +1,23 @@
+
+    [
+        {
+            "id": 1,
+            "title": "The Shards by Brett Easton Ellis",
+            "thumbnailUrl": "https://assets.vogue.com/photos/63bc5f1198262bb815e763bc/3:4/w_1280,c_limit/slide_3.jpg"
+        },
+        {
+            "id": 2,
+            "title": "A Little Life",
+            "thumbnailUrl": "https://images-us.bookshop.org/ingram/9780804172707.jpg?height=500&v=v2"
+        },
+        {
+            "id": 3,
+            "title": "Wow, No Thank You.: Essays",
+            "thumbnailUrl": "https://images-us.bookshop.org/ingram/9780525563488.jpg?height=500&v=v2"
+        },
+        {
+            "id": 4,
+            "title": "Split Tooth",
+            "thumbnailUrl": "https://images-us.bookshop.org/ingram/9780143198055.jpg?height=500&v=v2"
+        }
+    ]

@@ -1,0 +1,116 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgba(255, 255, 255, 0.432);
+    opacity: 1; /* Firefox */
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgba(255, 255, 255, 0.432);;
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: rgba(255, 255, 255, 0.432);
+  }
+
+html{
+    font-family:Verdana, Geneva, Tahoma, sans-serif
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    text-align: start;
+}
+
+li {
+    text-decoration: none;
+    color: white;
+}
+
+body {
+    background-color: darkmagenta;
+    margin:  50px 200px;
+    color: #fff;
+    max-width: 14000px;
+}
+
+header {
+}
+
+ul {
+    display: flex;
+    align-items: flex-start;
+    justify-content: start;
+}
+
+ul li {
+    list-style: none;
+    margin-right: 20px;
+    font-size: 2rem;
+    text-align: start;
+}
+
+input:active, input:focus {
+    outline:none
+}
+
+ul li:hover {
+    border-bottom: 1px solid white;
+}
+
+section#search {
+    margin-top: 50px;
+    width: 100%;
+}
+
+#searchForm {
+    width: 100%;
+}
+
+#bookSearch {
+    width: 100%;
+    line-height: 2rem;
+    border: 5px solid black;
+    border-radius: 50px;
+    background-color: #ffffff3d;
+    padding: 10px;
+    font-size: 1.5rem;
+    color: white;
+}
+
+#searchForm button {
+    padding: 15px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    background-color: rgb(114, 13, 114);
+    float: right;
+    cursor: pointer;
+}
+
+/** Grid  */
+
+.books-grid {
+    display: flex;
+    gap: 10px;
+    row-gap: 30px;
+    flex-wrap: wrap;
+}
+
+article {
+  flex: 1; 
+}
+
+img {
+    height: 500px;
+
+}
+
+article p {
+    text-overflow: clip;
+}
