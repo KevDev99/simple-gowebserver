@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
+	"os"
 	"strings"
 	"text/template"
 )
@@ -17,6 +19,8 @@ type Book struct {
 }
 
 var Books []Book
+
+var temp *template.Template
 
 func loadJson(searchString string) {
 	data, err := ioutil.ReadFile("./data/books.json")
@@ -47,13 +51,20 @@ func loadJson(searchString string) {
 
 }
 
-func headers(w http.ResponseWriter, req *http.Request) {
+func saveJson(json string, filePath string) {
 
-	for name, headers := range req.Header {
-		for _, h := range headers {
-			fmt.Fprintf(w, "%v: %v\n", name, h)
-		}
+	fmt.Printf("%v", json)
+
+	file, err := os.OpenFile(filePath, os.O_RDWR, 0644)
+
+	if err != nil {
+		log.Fatal(err)
+		return
 	}
+
+	defer file.Close()
+
+	ioutil.WriteFile(filePath, []byte(json), 0644)
 }
 
 func serveTemplate(w http.ResponseWriter, r *http.Request) {
@@ -67,7 +78,29 @@ func serveTemplate(w http.ResponseWriter, r *http.Request) {
 		loadJson("")
 	}
 
-	tmpl, err := template.ParseFiles("./views/index.html")
+	tmpl, err := template.ParseFiles("./views/index.html", "./views/header.html")
+
+	if err != nil {
+		http.Error(w, "Something went wrong", http.StatusInternalServerError)
+		return
+	}
+
+	data := map[string]interface{}{"Books": Books, "Search": ""}
+
+	if len(filters) > 0 {
+		data["Search"] = filters[0]
+	}
+
+	err = tmpl.Execute(w, data)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func addBookTemplate(w http.ResponseWriter, r *http.Request) {
+
+	tmpl, err := template.ParseFiles("./views/add-book.html", "./views/header.html")
 
 	if err != nil {
 		http.Error(w, "Something went wrong", http.StatusInternalServerError)
@@ -75,6 +108,48 @@ func serveTemplate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err = tmpl.Execute(w, Books)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func apiAddBook(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != "POST" {
+		http.Error(w, "Invalid Method", http.StatusMethodNotAllowed)
+		return
+	}
+
+	r.ParseForm()
+	hasTitle := r.PostForm.Has("title")
+	hasThumbnailUrl := r.PostForm.Has("thumbnailUrl")
+
+	if !hasTitle || !hasThumbnailUrl {
+		http.Error(w, "Title or Thumbnail not provided.", http.StatusBadRequest)
+		return
+	}
+
+	// get current books from json
+	loadJson("")
+
+	// append
+	newBook := Book{Id: rand.Intn(100000), Title: r.PostFormValue("title"), ThumbnailUrl: r.PostFormValue("thumbnailUrl")}
+
+	fmt.Printf("new book: %v", newBook)
+
+	Books = append(Books, newBook)
+
+	jsonBooks, err := json.Marshal(Books)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	saveJson(string(jsonBooks), "./data/books.json")
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+
 }
 
 func main() {
@@ -83,6 +158,10 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static", fs))
 
 	http.HandleFunc("/", serveTemplate)
+	http.HandleFunc("/add-booking", addBookTemplate)
+
+	/* API endpoints */
+	http.HandleFunc("/api/add-new-booking", apiAddBook)
 
 	http.ListenAndServe(":8090", nil)
 

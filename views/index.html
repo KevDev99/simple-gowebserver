@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./static/assets/css/styles.css">
-    <title>Library</title>
-</head>
+{{template "header"}}
+
 
 <body>
     <header>
@@ -17,8 +12,8 @@
         <br />
         <nav>
             <ul>
-                <li><a href="http://">Home</a></li>
-                <li><a href="http://">Add Book</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/add-booking">Add Book</a></li>
             </ul>
         </nav>
     </header>
@@ -26,7 +21,7 @@
     <section id="search">
 
         <form id="searchForm">
-            <input type="search" name="search" id="bookSearch" placeholder="search for a book and click search" />
+            <input type="search" name="search" id="bookSearch" placeholder="search for a book and click search" value="{{ .Search }}" />
             <br />
             <br />
             <button type="submit">Search</button>
@@ -42,7 +37,7 @@
 
     <section id="books">
         <div class="books-grid">
-            {{range $index, $book := .}}
+            {{range $index, $book := .Books}}
              <article>
                 <img src="{{$book.ThumbnailUrl}}" alt="split tooth a book">
                 <br />

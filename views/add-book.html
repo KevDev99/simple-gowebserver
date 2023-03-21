@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{{template "header"}}
+
+<body>
+    <header>
+        <h1>📚 Book Search</h1>
+        <br />
+        <br />
+        <br />
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/add-booking">Add Book</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="add-book">
+        <form action="/api/add-new-booking" method="post" id="newBookForm">
+            <label for="title">Title</label>
+            <br />
+            <input type="text" name="title" id="title">
+            <br />
+            <br />
+
+            <label for="title">Thumbnail Url</label>
+            <br />
+            <input type="text" name="thumbnailUrl" id="thumbnailUrl">
+
+            <br />
+            <br />
+            <button type="submit">Add</button>
+
+        </form>
+       
+    </section>
+
+   
+
+   
+</body>
+
+</html>
